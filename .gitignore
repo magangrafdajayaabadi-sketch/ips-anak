@@ -1,0 +1,14 @@
+# Dependensi & build
+node_modules/
+.vercel/
+
+# Sisa proses tulis / editor
+*.tmp.*
+.server-*.log
+*.swp
+.DS_Store
+Thumbs.db
+
+# Rahasia — jangan pernah di-commit
+.env
+.env.*

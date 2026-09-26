@@ -1,0 +1,62 @@
+{
+  "id": "/",
+  "name": "IPS Ceria",
+  "short_name": "IPS Ceria",
+  "description": "Game IPS interaktif untuk anak SD dengan kuis, misi, progres, dan bintang.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#FDF6E9",
+  "theme_color": "#6C4AB6",
+  "categories": ["education", "games", "kids"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mulai Main",
+      "short_name": "Main",
+      "description": "Buka permainan IPS Ceria",
+      "url": "/",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Panel Admin",
+      "short_name": "Admin",
+      "description": "Kelola branding dan pengaturan game",
+      "url": "/admin.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "logo.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "IPS Ceria"
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#6C4AB6">
+  <meta name="robots" content="noindex">
+  <meta name="application-name" content="IPS Ceria">
+  <meta name="apple-mobile-web-app-title" content="IPS Ceria">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Panel Admin — IPS Ceria</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="app.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body class="admin-page">
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <div class="tb-logo" id="brandLogo"></div>
+      <div>
+        <div class="tb-title">Panel Admin</div>
+        <div class="tb-sub" id="brandTagline">Kelola tampilan dan pengaturan game</div>
+      </div>
+    </div>
+    <div class="tb-actions">
+      <a class="pill sm" href="index.html"><i class="ti ti-arrow-left"></i> Lihat Game</a>
+      <button class="pill sm" id="btnLogout" style="display:none"><i class="ti ti-logout"></i> Keluar</button>
+    </div>
+  </header>
+
+  <!-- ================= LOGIN ================= -->
+  <main class="wrap" id="screenLogin">
+    <div class="section login-card">
+      <div class="sec-head">
+        <div class="sec-title"><i class="ti ti-lock"></i> Masuk sebagai Admin</div>
+        <div class="sec-sub">Halaman ini untuk guru / pengelola.</div>
+      </div>
+      <div id="loginMsg"></div>
+      <label class="field"><span>Password admin</span>
+        <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password">
+      </label>
+      <p class="muted">Password default ada di file <code>config.js</code>. Ganti setelah login pertama
+        lewat tab <b>Keamanan</b>.</p>
+      <button class="btn-accent block" id="btnLogin">Masuk</button>
+    </div>
+  </main>
+
+  <!-- ================= DASHBOARD ================= -->
+  <main class="wrap" id="screenAdmin" style="display:none">
+
+    <div class="admin-note">
+      <i class="ti ti-info-circle"></i>
+      <div>Pengaturan di panel ini tersimpan di browser (localStorage) dan menimpa nilai default —
+        cocok untuk uji coba cepat. Untuk perubahan <b>permanen bagi semua pengunjung</b>, salin hasilnya
+        lewat tab <b>Backup</b> lalu tempel ke file <code>config.js</code> sebelum deploy ulang.</div>
+    </div>
+
+    <div class="admin-tabs" id="adminTabs" role="tablist">
+      <button class="tab-btn on" data-tab="branding"><i class="ti ti-palette"></i> Branding</button>
+      <button class="tab-btn" data-tab="game"><i class="ti ti-device-gamepad-2"></i> Pengaturan Game</button>
+      <button class="tab-btn" data-tab="board"><i class="ti ti-trophy"></i> Papan Bintang</button>
+      <button class="tab-btn" data-tab="security"><i class="ti ti-lock"></i> Keamanan</button>
+      <button class="tab-btn" data-tab="backup"><i class="ti ti-database"></i> Backup</button>
+    </div>
+
+    <div id="adminMsg"></div>
+
+    <!-- ===== BRANDING ===== -->
+    <section class="tab-panel on" id="tab-branding">
+      <div class="section">
+        <label class="field"><span>Nama aplikasi / brand</span><input type="text" id="f-appName" maxlength="40"></label>
+        <label class="field"><span>Tagline</span><input type="text" id="f-tagline" maxlength="60"></label>
+        <label class="field"><span>Nama sekolah / lembaga (opsional)</span>
+          <input type="text" id="f-orgName" maxlength="60" placeholder="mis. SD Negeri 1 Ceria"></label>
+
+        <div class="apane-sep">Logo &amp; ikon</div>
+        <div class="logo-row">
+          <div class="tb-logo lg" id="logoPrev"></div>
+          <div class="logo-fields">
+            <label class="field"><span>Berkas / URL logo (opsional)</span>
+              <input type="text" inputmode="url" id="f-logoUrl" placeholder="logo.png"></label>
+            <label class="field"><span>Emoji ikon</span>
+              <input type="text" id="f-logoEmoji" maxlength="4"></label>
+          </div>
+          <div class="logo-btns">
+            <label class="filebtn"><i class="ti ti-upload"></i> Unggah<input type="file" id="f-logoFile" accept="image/*"></label>
+            <button class="pill sm danger" id="btnLogoClear"><i class="ti ti-trash"></i> Hapus logo</button>
+          </div>
+        </div>
+        <p class="muted">Isi nama berkas di folder aplikasi (mis. <b>logo.png</b>) atau URL gambar penuh;
+          kosongkan untuk memakai emoji. Logo selalu ditampilkan mengisi penuh kotaknya, jadi pakai
+          gambar persegi. Unggahan (≤ 500 KB) disematkan langsung ke pengaturan browser ini.</p>
+
+        <div class="apane-sep">Warna tema</div>
+        <div class="field"><span class="fl">Tema siap pakai</span><div class="preset-row" id="presetRow"></div></div>
+        <div class="row">
+          <label class="field"><span>Warna utama</span><input type="color" id="f-colorPrimary"></label>
+          <label class="field"><span>Warna tombol aksi</span><input type="color" id="f-colorAccent"></label>
+        </div>
+        <div class="field"><span class="fl">Mode tampilan</span>
+          <div class="seg" id="segTheme">
+            <button data-mode="auto">Ikut perangkat</button>
+            <button data-mode="light">Terang</button>
+            <button data-mode="dark">Gelap</button>
+          </div>
+        </div>
+        <p class="muted">Perubahan warna langsung terlihat di panel ini sebagai pratinjau.</p>
+
+        <div class="apane-sep">Layar sambutan anak</div>
+        <label class="field"><span>Judul sambutan</span><input type="text" id="f-welcomeTitle" maxlength="40"></label>
+        <label class="field"><span>Kalimat sambutan</span><input type="text" id="f-welcomeText" maxlength="120"></label>
+
+        <div class="apane-sep">Footer &amp; kontak</div>
+        <label class="field"><span>Teks footer</span><input type="text" id="f-footerText" maxlength="80"></label>
+        <div class="row">
+          <label class="field"><span>Nomor WhatsApp (opsional)</span>
+            <input type="text" id="f-contactWa" placeholder="6281234567890"></label>
+          <label class="field"><span>Label tombol kontak</span><input type="text" id="f-contactLabel" maxlength="30"></label>
+        </div>
+        <p class="muted">Format internasional tanpa tanda +. Kosongkan untuk menyembunyikan tombol kontak.</p>
+
+        <div class="save-bar">
+          <button class="btn-accent" data-save><i class="ti ti-device-floppy"></i> Simpan perubahan</button>
+          <a class="pill" href="index.html" target="_blank" rel="noopener">Pratinjau game ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PENGATURAN GAME ===== -->
+    <section class="tab-panel" id="tab-game">
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-title">Permainan yang aktif</div>
+          <div class="sec-sub">Yang dimatikan hilang dari menu anak <b>dan</b> dari hitungan fokus.
+            <b><span id="gCount">0</span> dari <span id="gTotal">0</span></b> aktif.</div>
+        </div>
+        <div class="gtoggles" id="gameToggles"></div>
+
+        <div class="apane-sep">Level</div>
+        <div class="lv-grid" id="levelRows"></div>
+        <p class="muted">Nonaktifkan level untuk menyembunyikannya dari anak. Nama level boleh
+          disesuaikan dengan brand. Minimal satu level harus aktif.</p>
+
+        <div class="apane-sep">Timer per soal</div>
+        <label class="check-row"><input type="checkbox" id="f-timerEnabled"> Aktifkan <b>bar bonus kecepatan</b> di tiap soal</label>
+        <label class="field"><span>Waktu per soal (detik)</span>
+          <input type="number" id="f-timerSeconds" min="5" max="60" step="1"></label>
+        <p class="muted">Menjawab benar saat sisa waktu masih separuh atau lebih memberi <b>+1 bintang bonus</b>.
+          Waktu habis <b>tidak</b> membuat jawaban salah — anak tetap boleh menjawab, hanya bonusnya hilang.
+          Berlaku di kuis, benar/salah, sortir, dan tebak profesi (permainan bersoal).</p>
+
+        <div class="apane-sep">Bagian yang tampil</div>
+        <label class="check-row"><input type="checkbox" id="f-showRoom"> Tampilkan <b>Main bersama (Room)</b></label>
+        <label class="check-row"><input type="checkbox" id="f-showLeaderboard"> Tampilkan <b>Papan bintang</b></label>
+
+        <div class="save-bar">
+          <button class="btn-accent" data-save><i class="ti ti-device-floppy"></i> Simpan perubahan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAPAN BINTANG ===== -->
+    <section class="tab-panel" id="tab-board">
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-title">🏆 Papan bintang tersimpan</div>
+          <div class="sec-sub">Semua room yang pernah dibuat / dimasuki di perangkat ini.</div>
+        </div>
+        <div id="boardList"></div>
+        <div class="save-bar">
+          <button class="pill danger" id="btnResetBoard"><i class="ti ti-eraser"></i> Hapus semua skor</button>
+        </div>
+        <p class="muted">Papan bintang tersimpan per-browser (localStorage), jadi tiap perangkat pemain
+          punya papannya sendiri.</p>
+      </div>
+    </section>
+
+    <!-- ===== KEAMANAN ===== -->
+    <section class="tab-panel" id="tab-security">
+      <div class="section">
+        <label class="field"><span>Password admin baru</span>
+          <input type="password" id="f-newPass" placeholder="Minimal 6 karakter" autocomplete="new-password"></label>
+        <label class="field"><span>Ulangi password baru</span>
+          <input type="password" id="f-newPass2" autocomplete="new-password"></label>
+        <div class="save-bar">
+          <button class="btn-accent" id="btnChangePass"><i class="ti ti-key"></i> Ganti password</button>
+          <button class="pill" id="btnResetPass">Kembalikan ke password config.js</button>
+        </div>
+        <p class="muted">Password disimpan sebagai <i>hash</i> di browser ini, bukan teks polos. Namun proteksi
+          ini berjalan di sisi browser dan hanya cukup untuk melindungi pengaturan tampilan —
+          jangan menyimpan data sensitif di aplikasi ini. Untuk keamanan permanen, ganti juga
+          <code>adminPassword</code> di <code>config.js</code> sebelum deploy.</p>
+      </div>
+    </section>
+
+    <!-- ===== BACKUP ===== -->
+    <section class="tab-panel" id="tab-backup">
+      <div class="section">
+        <label class="field"><span>Konfigurasi saat ini (JSON)</span>
+          <textarea id="f-export" rows="12" spellcheck="false"></textarea></label>
+        <p class="muted">Salin JSON ini lalu tempel nilainya ke <code>window.APP_CONFIG</code> di file
+          <code>config.js</code> agar menjadi pengaturan permanen untuk semua pengunjung. Atau simpan sebagai backup.</p>
+        <div class="save-bar">
+          <button class="btn-accent" id="btnCopy"><i class="ti ti-copy"></i> Salin ke clipboard</button>
+          <button class="pill" id="btnDownload"><i class="ti ti-download"></i> Unduh .json</button>
+          <label class="filebtn"><i class="ti ti-upload"></i> Muat berkas<input type="file" id="btnImportFile" accept="application/json,.json"></label>
+          <button class="pill" id="btnApplyJson">Terapkan JSON di atas</button>
+          <button class="pill danger" id="btnResetConfig"><i class="ti ti-rotate"></i> Kembalikan ke default config.js</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <p id="footerText">Panel Admin</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="brand.js"></script>
+  <script src="data.js"></script>
+  <script src="admin.js"></script>
+  <script src="pwa.js"></script>
+</body>
+</html>
